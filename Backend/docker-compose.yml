@@ -1,0 +1,25 @@
+services:
+  # Mongodb service
+  mongo_Database:
+    container_name: MongoDB_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongoDB_data:/data/db
+
+  # API service
+  node-api:
+    container_name: node-web-app_Container
+    image: patriclb/node-web-app
+    ports:
+      # local port 8080 to 3000. Just for "testing" port forwarding
+      - 8080:3000
+    environment:
+      PORT: 3000
+      MONGODB_URI: mongodb://mongo_Database:27017
+      DB_NAME: DockerLabb1_Database
+    depends_on: 
+      - mongo_Database
+
+volumes:
+  mongoDB_data: {}
