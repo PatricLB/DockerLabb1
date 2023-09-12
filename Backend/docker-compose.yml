@@ -11,6 +11,9 @@ services:
   node-api:
     container_name: node-web-app_Container
     image: patriclb/node-web-app
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       # local port 8080 to 3000. Just for "testing" port forwarding
       - 8080:3000
