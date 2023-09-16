@@ -1,5 +1,5 @@
 services:
-  # Mongodb service
+  # Mongodb service. Skapar ett container namn, vilken image vi ska ha för vår mongodb, startar om servicen ifall den stängs av utanför "docker kill" samt vilken volym den skall anväda sig av. 
   mongo_Database:
     container_name: MongoDB_container
     image: mongo:latest
@@ -9,20 +9,25 @@ services:
 
   # API service
   node-api:
+  #namn på containern.
     container_name: node-web-app_Container
+    #Vilken image skall denna container ha
     image: patriclb/node-web-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # local port forwarding 8080 till 3000. Öppnar upp porten för containern.
     ports:
-      # local port 8080 to 3000. Just for "testing" port forwarding
       - 8080:3000
+    #Skapar environment variabler.
     environment:
+    #Anger en Port
       PORT: 3000
+      # Anger en mongoDB connection string
       MONGODB_URI: mongodb://mongo_Database:27017
+      #Anger namnet på mongoDB collectionen
       DB_NAME: DockerLabb1_Database
+    #Denna service har ett beroende på vår MongoDB service. 
     depends_on: 
       - mongo_Database
 
+#Skapar en volym så att MongoDB kan spara sin databas någonstans.
 volumes:
   mongoDB_data: {}
